@@ -36,21 +36,23 @@ from matplotlib.container import ErrorbarContainer
 from concurrent.futures import ProcessPoolExecutor
 import spaceKLIP
 
-from psfInjectionUtils import process_single_file, create_directories, load_psf_model
-from recoverInjectedLightCurve import run_analysis
-from psfInjectionVisualization import save_variability_visualization, save_chisq_by_pa_visualization
-
 import tracemalloc
 tracemalloc.start()
 
 # Import configuration and utilities
-FILTER_NAME = "F410M"
+FILTER_NAME = "F210M"
+os.environ['FILTER_NAME_HD'] = FILTER_NAME
+
 if FILTER_NAME == 'F210M':
     import psfInjectionConfig_F210M as config
 elif FILTER_NAME == 'F410M':
     import psfInjectionConfig_F410M as config
 else:
     raise ValueError("JWST_FILTER must be F210M or F410M")
+
+from recoverInjectedLightCurve import run_analysis
+from psfInjectionUtils import process_single_file, create_directories, load_psf_model
+from psfInjectionVisualization import save_variability_visualization, save_chisq_by_pa_visualization
 
 # Get filepaths from config
 PSF_FILENAME = config.PSF_FILENAME

@@ -17,7 +17,7 @@ import sys
 import gc
 
 # Resolve local imports from this file, independent of the current working directory.
-FilterName = os.environ.get('JWST_FILTER', 'F410M').upper()
+FilterName = os.environ.get('FILTER_NAME_HD').upper()
 
 project_dir = Path(__file__).resolve().parents[1]
 project_parent = project_dir.parent
@@ -29,6 +29,7 @@ elif FilterName == 'F210M':
     import psfInjectionConfig_F210M as config
 else:
     raise ValueError("JWST_FILTER must be F210M or F410M")
+
 from HD_130948.DirectPlanetLightCurveAnalysis.utils import (create_directories, calculate_planet_pixels, 
                   pca_timeseries, save_to_hdf5, load_from_hdf5)
 from HD_130948.DirectPlanetLightCurveAnalysis.aperture_photometry import (extract_aperture_photometry, calculate_planet_contribution)

@@ -6,9 +6,15 @@ from scipy.ndimage import median_filter
 from scipy.optimize import least_squares
 from scipy.stats import chi2
 from pathlib import Path
-import psfInjectionConfig_F410M as config
 
-FILTER_NAME = "F410M"
+FILTER_NAME = os.environ.get('FILTER_NAME_HD').upper()
+
+if FILTER_NAME == "F210M":
+    import psfInjectionConfig_F210M as config
+elif FILTER_NAME == "F410M":
+    import psfInjectionConfig_F410M as config
+else:
+    raise ValueError("JWST_FILTER must be F210M or F410M")
 
 # COPIED FROM MISC.PY BECAUSE IT DIDN'T WANT TO IMPORT
 def _validate_bin_size(bin_size):
@@ -74,8 +80,6 @@ def test_deviation_from_flat(values, errors):
     p_value = stats.chi2.sf(chi2_stat, dof)
     
     return chi2_stat / dof, p_value, dof, weighted_mean
-
-filter_name = 'F410M'
 
 chisq_non_variable_amplitudes = np.zeros(5)
 chisq_variable_amplitudes = np.zeros(5)
